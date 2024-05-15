@@ -5,9 +5,9 @@
 void Listener(SKSE::MessagingInterface::Message* message) noexcept
 {
     if (message->type <=> SKSE::MessagingInterface::kDataLoaded == 0) {
-        auto settings = Settings::GetSingleton();
-        settings->LoadSettings();
-        settings->LoadForms();
+        if (!Settings::InitializeSettings()) {
+            logger::error("Failed to read settings.");
+        }
     }
 }
 

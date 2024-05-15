@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.28)
 message("Using toolchain file ${CMAKE_TOOLCHAIN_FILE}.")
 
 project(
-  SKSETEmplate
-  VERSION 1.0.0
+  ArcheryRebalance
+  VERSION 2.0.0
   LANGUAGES CXX
 )
 
@@ -58,7 +58,7 @@ include(extern/CommonLibSSE-NG/cmake/CommonLibSSE.cmake)
 
 add_commonlibsse_plugin(
   ${PROJECT_NAME}
-  AUTHOR Styyx
+  AUTHOR SeaSparrow
   SOURCES ${headers} ${sources}
 )
 

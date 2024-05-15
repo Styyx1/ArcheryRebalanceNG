@@ -1,7 +1,8 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
-  "name": "skse-template",
-  "version-semver": "1.0.0",
+  "name": "archeryrebalance",
+  "version-semver": "2.0.0",
+  "description": "Rebalances Skyrim SE's archery and introduces new features.",
   "dependencies": [
     "fmt",
     "spdlog",
