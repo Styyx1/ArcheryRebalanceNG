@@ -127,13 +127,13 @@ namespace Settings {
 		ini.LoadFile(f.c_str());
 
 		bool bBuffArrows = ini.GetBoolValue("General", "bBuffArrowDamage");
-		double fAdditionalArrowDamage = ini.GetDoubleValue("General", "fAdditionalArrowDamage");
+        double fAdditionalArrowDamage = ini.GetDoubleValue("General", "fAdditionalArrowDamage");
 		bool bAdjustArrowSpeed = ini.GetBoolValue("General", "bIncreaseArrowSpeed");
 		double fNewArrowSpeed = ini.GetDoubleValue("General", "fNewArrowSpeed");
 
 		bool bBuffBolts = ini.GetBoolValue("General", "bBuffBoltDamage");
 		bool bBoltsPenetrateArmor = ini.GetBoolValue("General", "bBoltsPenetrateArmor");
-		double fAdditionalBoltDamage = ini.GetDoubleValue("General", "fAdditionalBoltDamage");
+         double fAdditionalBoltDamage = ini.GetDoubleValue("General", "fAdditionalBoltDamage");
 		bool bAdjustBoltSpeed = ini.GetBoolValue("General", "bIncreaseBoltSpeed");
 		double fNewBoltSpeed = ini.GetDoubleValue("General", "fNewBoltSpeed");
 

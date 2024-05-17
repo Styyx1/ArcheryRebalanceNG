@@ -21,9 +21,9 @@ namespace Hooks {
 
 					//Bows are split into 4 categories. Light, medium, fluffy, and DAMN.
 					//Light: Weight of 5 or under. Multiplier: 0.3.
-					//Medium: Weight of 10 or udner. Multiplier: 0.6.
-					//Fluffy: Weight of 15 or udner. Multiplier: 1.0.
-					//DAMN: Weight of 20 or udner. Multiplier: 1.3.
+					//Medium: Weight of 10 or under. Multiplier: 0.6.
+					//Fluffy: Weight of 15 or under. Multiplier: 1.0.
+					//DAMN: Weight of 20 or under. Multiplier: 1.3.
 					float weaponWeight = weaponSource->GetWeight();
 					if (weaponWeight <= 5.0f) {
 						weightMultiplier = 0.3f;

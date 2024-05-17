@@ -6,7 +6,7 @@ namespace {
 		auto rightEquipObject = a_data->object;
 		auto* rightEquipWeapon = rightEquipObject->As<RE::TESObjectWEAP>();
 		bool isBow = rightEquipWeapon ? rightEquipWeapon->IsBow() : false;
-		auto* currentAmmo = isBow ? eventActor->GetCurrentAmmo() : nullptr;
+        auto* currentAmmo      = isBow ? eventActor->GetCurrentAmmo() : nullptr;
 		if (!currentAmmo) return;
 
 		//Make sure that the ammo matches the ranged weapon equipped.
@@ -121,7 +121,7 @@ namespace EventHandler {
 		if (!eventActor) return continueEvent;
 
 		//Make sure that a weapon or ammo piece was equipped while a weapon is in the right hand.
-		auto* rightEquipData = eventActor->GetEquippedEntryData(false);
+        auto* rightEquipData = eventActor->GetEquippedEntryData(false);
 		if (!rightEquipData) return continueEvent;
 
 		HandleActorStateChanged(eventActor, rightEquipData, this->bAccountConjuration, this->fConjurationWeight);

@@ -14,9 +14,9 @@ namespace AdjustWeapons {
 
 	class ArrowAdjuster : public Singleton<ArrowAdjuster> {
 	public:
-		bool Adjust();
-		void UpdateArrowDamageSettings(bool a_adjustArrowDamage, double a_additionalDamage);
-		void UpdateArrowSpeedSettings(bool a_adjustArrowSpeed, double a_newArrowSpeed);
+        bool Adjust();
+        void UpdateArrowDamageSettings(bool a_adjustArrowDamage, double a_additionalDamage);
+        void UpdateArrowSpeedSettings(bool a_adjustArrowSpeed, double a_newArrowSpeed);
 
 	private:
 		bool   bBuffArrowDamage;
