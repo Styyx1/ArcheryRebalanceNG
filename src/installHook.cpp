@@ -20,24 +20,24 @@ namespace Hooks
                         boundMultiplier = 2.0f;
                     }
 
-					//Bows are split into 4 categories. Light, medium, fluffy, and DAMN.
-					//Light: Weight of 5 or under. Multiplier: 0.3.
-					//Medium: Weight of 10 or under. Multiplier: 0.6.
-					//Fluffy: Weight of 15 or under. Multiplier: 1.0.
-					//DAMN: Weight of 20 or under. Multiplier: 1.3.
-					float weaponWeight = weaponSource->GetWeight();
-					if (weaponWeight <= 5.0f) {
-						weightMultiplier = 0.3f;
-					}
-					else if (weaponWeight <= 5.0f) {
-						weightMultiplier = 0.6f;
-					}
-					else if (weaponWeight <= 5.0f) {
-						weightMultiplier = 1.0f;
-					}
-					else {
-						weightMultiplier = 1.3f;
-					}
+                    // Bows are split into 4 categories. Light, medium, fluffy, and DAMN.
+                    // Light: Weight of 5 or under. Multiplier: 0.3.
+                    // Medium: Weight of 10 or under. Multiplier: 0.6.
+                    // Fluffy: Weight of 15 or under. Multiplier: 1.0.
+                    // DAMN: Weight of 20 or under. Multiplier: 1.3.
+                    float weaponWeight = weaponSource->GetWeight();
+                    if (weaponWeight <= 5.0f) {
+                        weightMultiplier = 0.3f;
+                    }
+                    else if (weaponWeight <= 5.0f) {
+                        weightMultiplier = 0.6f;
+                    }
+                    else if (weaponWeight <= 5.0f) {
+                        weightMultiplier = 1.0f;
+                    }
+                    else {
+                        weightMultiplier = 1.3f;
+                    }
 
                     weightMultiplier *= boundMultiplier;
                     a_projectile->GetProjectileRuntimeData().linearVelocity *= weightMultiplier;

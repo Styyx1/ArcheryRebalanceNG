@@ -1,27 +1,29 @@
 #include "equipmentAdjuster.h"
 
-namespace AdjustWeapons {
-	bool AdjustWeapons() {
-		if (ArrowAdjuster::GetSingleton()->Adjust()) {
-			logger::info("Finished adjusting arrows.");
-		}
-		else {
+namespace AdjustWeapons
+{
+    bool AdjustWeapons()
+    {
+        if (ArrowAdjuster::GetSingleton()->Adjust()) {
+            logger::info("Finished adjusting arrows.");
+        }
+        else {
             logger::error("Encountered error while adjusting arrows.");
             return false;
         }
 
-		if (BoltAdjuster::GetSingleton()->Adjust()) {
+        if (BoltAdjuster::GetSingleton()->Adjust()) {
             logger::info("Finished adjusting bolts.");
-		}
-		else {
+        }
+        else {
             logger::error("Encountered error while adjusting bolts.");
             return false;
         }
 
-		if (BowAdjuster::GetSingleton()->Adjust()) {
+        if (BowAdjuster::GetSingleton()->Adjust()) {
             logger::info("Finished adjusting bows.");
-		}
-		else {
+        }
+        else {
             logger::error("Encountered error while adjusting bows.");
             return false;
         }
@@ -100,18 +102,19 @@ namespace AdjustWeapons {
         }
     }
 
-	bool ArrowAdjuster::Adjust()
+    bool ArrowAdjuster::Adjust()
     {
-        if (!bBuffArrowDamage && !bIncreaseArrowSpeed) return true; 
-		const auto& dataHandler = RE::TESDataHandler::GetSingleton();
-		std::vector<std::pair<std::string, std::pair<bool, bool>>> adjustedArrows;
+        if (!bBuffArrowDamage && !bIncreaseArrowSpeed)
+            return true;
+        const auto&                                                dataHandler = RE::TESDataHandler::GetSingleton();
+        std::vector<std::pair<std::string, std::pair<bool, bool>>> adjustedArrows;
 
         if (!dataHandler) {
             logger::error("Failed to get the data handler.");
             return false;
         }
 
-		const auto& ammoArray = dataHandler->GetFormArray<RE::TESAmmo>();
+        const auto& ammoArray = dataHandler->GetFormArray<RE::TESAmmo>();
         for (RE::TESAmmo* ammo : ammoArray) {
             auto& ammoData = ammo->GetRuntimeData().data;
             if (!ammo->IsBolt()) continue;            
@@ -121,27 +124,27 @@ namespace AdjustWeapons {
 			bool bAdjustedSpeed = false;
 			bool bAdjustedDamage = false;
 
-			if (this->bIncreaseArrowSpeed) {
-				auto& ammoProjectile = ammoData.projectile;
-				if (ammoProjectile) {
+            if (this->bIncreaseArrowSpeed) {
+                auto& ammoProjectile = ammoData.projectile;
+                if (ammoProjectile) {
                     ammoProjectile->data.speed = this->fNewArrowSpeed;
-					bAdjustedSpeed = true;
-				}
-			}
+                    bAdjustedSpeed             = true;
+                }
+            }
 
-			if (this->bBuffArrowDamage) {
+            if (this->bBuffArrowDamage) {
                 ammoData.damage += this->fAdditionalArrowDamage;
 				bAdjustedDamage = true;
 			}
 
-			if (!ammoName.empty() && (bAdjustedDamage || bAdjustedSpeed)) {
-				std::pair<std::string, std::pair<bool, bool>> newPair;
-				newPair.first = ammoName;
-				newPair.second.first = bAdjustedSpeed;
-				newPair.second.second = bAdjustedDamage;
-				adjustedArrows.push_back(newPair);
-			}
-		}        
+            if (!ammoName.empty() && (bAdjustedDamage || bAdjustedSpeed)) {
+                std::pair<std::string, std::pair<bool, bool>> newPair;
+                newPair.first         = ammoName;
+                newPair.second.first  = bAdjustedSpeed;
+                newPair.second.second = bAdjustedDamage;
+                adjustedArrows.push_back(newPair);
+            }
+        }
 
         if (!adjustedArrows.empty()) {
             logger::info("");
@@ -158,8 +161,10 @@ namespace AdjustWeapons {
         return true;
     }
 
-	bool BoltAdjuster::Adjust() {
-        if (!bBuffBoltDamage && !bIncreaseBoltSpeed && !bBoltsPenetrateArmor) return true;        
+    bool BoltAdjuster::Adjust()
+    {
+        if (!bBuffBoltDamage && !bIncreaseBoltSpeed && !bBoltsPenetrateArmor)
+            return true;
 
         const auto&                                                dataHandler = RE::TESDataHandler::GetSingleton();
         std::vector<std::pair<std::string, std::pair<bool, bool>>> adjustedBolts;
@@ -169,7 +174,7 @@ namespace AdjustWeapons {
             return false;
         }
 
-		const auto& ammoArray = dataHandler->GetFormArray<RE::TESAmmo>();
+        const auto& ammoArray = dataHandler->GetFormArray<RE::TESAmmo>();
         for (RE::TESAmmo* ammo : ammoArray) {
             auto& ammoData = ammo->GetRuntimeData().data;
 			if (ammo->IsBolt()) continue;
@@ -179,13 +184,13 @@ namespace AdjustWeapons {
 			bool bAdjustedSpeed = false;
 			bool bAdjustedDamage = false;
 
-			if (this->bIncreaseBoltSpeed) {
-				auto& ammoProjectile = ammoData.projectile;
-				if (ammoProjectile) {
-					ammoProjectile->data.speed = this->fNewBoltSpeed;
-					bAdjustedSpeed = true;
-				}
-			}
+            if (this->bIncreaseBoltSpeed) {
+                auto& ammoProjectile = ammoData.projectile;
+                if (ammoProjectile) {
+                    ammoProjectile->data.speed = this->fNewBoltSpeed;
+                    bAdjustedSpeed             = true;
+                }
+            }
 
             if (this->bBuffBoltDamage) {
                 ammoData.damage += this->fAdditionalBoltDamage;
@@ -221,9 +226,10 @@ namespace AdjustWeapons {
         return true;
     }
 
-	bool BowAdjuster::Adjust() {
-		const auto dataHandler = RE::TESDataHandler::GetSingleton();
-		std::vector<std::string> adjustedBows;
+    bool BowAdjuster::Adjust()
+    {
+        const auto               dataHandler = RE::TESDataHandler::GetSingleton();
+        std::vector<std::string> adjustedBows;
 
         if (!dataHandler) {
             logger::error("Failed to get the data handler.");
