@@ -117,12 +117,15 @@ namespace AdjustWeapons
         const auto& ammoArray = dataHandler->GetFormArray<RE::TESAmmo>();
         for (RE::TESAmmo* ammo : ammoArray) {
             auto& ammoData = ammo->GetRuntimeData().data;
-            if (!ammo->IsBolt()) continue;            
-            if (ammo->GetPlayable()) continue;
-            if (ammoData.damage < 1.0f) continue;            
-			std::string ammoName = ammo->GetName();
-			bool bAdjustedSpeed = false;
-			bool bAdjustedDamage = false;
+            if (!ammo->IsBolt())
+                continue;
+            if (ammo->GetPlayable())
+                continue;
+            if (ammoData.damage < 1.0f)
+                continue;
+            std::string ammoName        = ammo->GetName();
+            bool        bAdjustedSpeed  = false;
+            bool        bAdjustedDamage = false;
 
             if (this->bIncreaseArrowSpeed) {
                 auto& ammoProjectile = ammoData.projectile;
@@ -134,8 +137,8 @@ namespace AdjustWeapons
 
             if (this->bBuffArrowDamage) {
                 ammoData.damage += this->fAdditionalArrowDamage;
-				bAdjustedDamage = true;
-			}
+                bAdjustedDamage = true;
+            }
 
             if (!ammoName.empty() && (bAdjustedDamage || bAdjustedSpeed)) {
                 std::pair<std::string, std::pair<bool, bool>> newPair;
@@ -177,12 +180,15 @@ namespace AdjustWeapons
         const auto& ammoArray = dataHandler->GetFormArray<RE::TESAmmo>();
         for (RE::TESAmmo* ammo : ammoArray) {
             auto& ammoData = ammo->GetRuntimeData().data;
-			if (ammo->IsBolt()) continue;
-			if (ammo->GetPlayable()) continue;
-			if (ammoData.damage < 1.0f) continue;
-			std::string ammoName = ammo->GetName();
-			bool bAdjustedSpeed = false;
-			bool bAdjustedDamage = false;
+            if (ammo->IsBolt())
+                continue;
+            if (ammo->GetPlayable())
+                continue;
+            if (ammoData.damage < 1.0f)
+                continue;
+            std::string ammoName        = ammo->GetName();
+            bool        bAdjustedSpeed  = false;
+            bool        bAdjustedDamage = false;
 
             if (this->bIncreaseBoltSpeed) {
                 auto& ammoProjectile = ammoData.projectile;

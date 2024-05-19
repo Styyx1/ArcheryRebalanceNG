@@ -60,7 +60,8 @@ namespace
 				ini.SetBoolValue("General", "bBoltsPenetrateArmor", false,
 					";Makes it so bolts penetrate armor by
 
-                 * * default.");
+
+                 * * * default.");
 				*/
 
                 ini.SetBoolValue("General", "bIncreaseArrowSpeed", true, ";Increases arrow speed TO a specific amount.");
