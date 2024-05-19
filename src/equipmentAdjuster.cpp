@@ -114,8 +114,8 @@ namespace AdjustWeapons {
 		const auto& ammoArray = dataHandler->GetFormArray<RE::TESAmmo>();
         for (RE::TESAmmo* ammo : ammoArray) {
             auto& ammoData = ammo->GetRuntimeData().data;
-            if (!(ammoData.flags & RE::AMMO_DATA::Flag::kNonBolt)) continue;            
-            if (ammoData.flags & RE::AMMO_DATA::Flag::kNonPlayable) continue;
+            if (!ammo->IsBolt()) continue;            
+            if (ammo->GetPlayable()) continue;
             if (ammoData.damage < 1.0f) continue;            
 			std::string ammoName = ammo->GetName();
 			bool bAdjustedSpeed = false;
@@ -131,7 +131,6 @@ namespace AdjustWeapons {
 
 			if (this->bBuffArrowDamage) {
                 ammoData.damage += this->fAdditionalArrowDamage;
-                logger::info("adjusted arrow damage to {}", ammoData.damage);
 				bAdjustedDamage = true;
 			}
 
@@ -173,8 +172,8 @@ namespace AdjustWeapons {
 		const auto& ammoArray = dataHandler->GetFormArray<RE::TESAmmo>();
         for (RE::TESAmmo* ammo : ammoArray) {
             auto& ammoData = ammo->GetRuntimeData().data;
-			if ((ammoData.flags & RE::AMMO_DATA::Flag::kNonBolt)) continue;
-			if (ammoData.flags & RE::AMMO_DATA::Flag::kNonPlayable) continue;
+			if (ammo->IsBolt()) continue;
+			if (ammo->GetPlayable()) continue;
 			if (ammoData.damage < 1.0f) continue;
 			std::string ammoName = ammo->GetName();
 			bool bAdjustedSpeed = false;
