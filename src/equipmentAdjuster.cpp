@@ -119,7 +119,7 @@ namespace AdjustWeapons
             auto& ammoData = ammo->GetRuntimeData().data;
             if (!ammo->IsBolt())
                 continue;
-            if (ammo->GetPlayable())
+            if (!ammo->GetPlayable())
                 continue;
             if (ammoData.damage < 1.0f)
                 continue;
@@ -182,7 +182,7 @@ namespace AdjustWeapons
             auto& ammoData = ammo->GetRuntimeData().data;
             if (ammo->IsBolt())
                 continue;
-            if (ammo->GetPlayable())
+            if (!ammo->GetPlayable())
                 continue;
             if (ammoData.damage < 1.0f)
                 continue;
