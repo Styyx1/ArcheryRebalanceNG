@@ -60,9 +60,13 @@ namespace
                 ini.SetBoolValue("General", "bBuffBoltDamage", false, ";Increases bolt damage by a specific amount.");
 
                 /* See note in ShouldRebuildINI.
-                ini.SetBoolValue("General", "bBoltsPenetrateArmor", false,
-                    ";Makes it so bolts penetrate armor by default.");
-                */
+				ini.SetBoolValue("General", "bBoltsPenetrateArmor", false,
+					";Makes it so bolts penetrate armor
+                 * by
+
+
+                 * * * default.");
+				*/
 
                 ini.SetBoolValue("General", "bIncreaseArrowSpeed", true, ";Increases arrow speed TO a specific amount.");
 
