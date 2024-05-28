@@ -14,6 +14,9 @@ namespace
 
                                       "bAdjustBowDrawSpeed", "bAccountConjuration", "bEnforceArcherySettings",
 
+                                      // New - Makes the player the sole beneficiary of the dynamic draw system.
+                                      "bPlayerOnly",
+
                                       "fAdditionalArrowDamage", "fAdditionalBoltDamage", "fNewArrowSpeed", "fNewBoltSpeed", "fConjurationWeight" };
         int         keyNumber     = sizeof(generalKeys) / sizeof(generalKeys[0]);
 
@@ -57,18 +60,17 @@ namespace
                 ini.SetBoolValue("General", "bBuffBoltDamage", false, ";Increases bolt damage by a specific amount.");
 
                 /* See note in ShouldRebuildINI.
-				ini.SetBoolValue("General", "bBoltsPenetrateArmor", false,
-					";Makes it so bolts penetrate armor by
-
-
-                 * * * default.");
-				*/
+                ini.SetBoolValue("General", "bBoltsPenetrateArmor", false,
+                    ";Makes it so bolts penetrate armor by default.");
+                */
 
                 ini.SetBoolValue("General", "bIncreaseArrowSpeed", true, ";Increases arrow speed TO a specific amount.");
 
                 ini.SetBoolValue("General", "bIncreaseBoltSpeed", true, ";Increases bolt speed TO a specific amount.");
 
                 ini.SetBoolValue("General", "bAdjustBowDrawSpeed", true, ";Main functionality of the mod, allows for dynamic draw speed based on bow weight and archery skill.");
+
+                ini.SetBoolValue("General", "bPlayerOnly", true, ";Makes the main mod only affect the player.");
 
                 ini.SetBoolValue(
                     "General", "bAccountConjuration", false,
@@ -134,11 +136,12 @@ namespace Settings
         double fNewBoltSpeed         = ini.GetDoubleValue("General", "fNewBoltSpeed");
 
         bool   bEnableMainFunctionality    = ini.GetBoolValue("General", "bAdjustBowDrawSpeed");
+        bool   bMainForPlayerOnly          = ini.GetBoolValue("General", "bPlayerOnly");
         bool   bAccountForConjurationSkill = ini.GetBoolValue("General", "bAccountConjuration");
         double fConjurationSkillWeight     = ini.GetDoubleValue("General", "fConjurationWeight");
 
-        onEquipListener->UpdateDrawSpeedSetting(bEnableMainFunctionality, bAccountForConjurationSkill, fConjurationSkillWeight);
-        OnLoadListener->UpdateDrawSpeedSetting(bEnableMainFunctionality, bAccountForConjurationSkill, fConjurationSkillWeight);
+        onEquipListener->UpdateDrawSpeedSetting(bEnableMainFunctionality, bMainForPlayerOnly, bAccountForConjurationSkill, fConjurationSkillWeight);
+        OnLoadListener->UpdateDrawSpeedSetting(bEnableMainFunctionality, bMainForPlayerOnly, bAccountForConjurationSkill, fConjurationSkillWeight);
         boltAdjuster->UpdateBoltSpeedSettings(bAdjustBoltSpeed, fNewBoltSpeed);
         boltAdjuster->UpdateBoltDamageSettings(bBoltsPenetrateArmor, bBuffBolts, fAdditionalBoltDamage);
         arrowAdjuster->UpdateArrowDamageSettings(bBuffArrows, fAdditionalArrowDamage);

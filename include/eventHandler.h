@@ -11,14 +11,16 @@ namespace EventHandler
     {
     public:
         // Registers the listener, so it can actually respond to game events.
+        bool NPCGoodToFire();
         bool RegisterListener();
-        void UpdateDrawSpeedSetting(bool a_enableDynamicDraw, bool a_enableConjurationFactor, double a_conjurationWeight);
+        void UpdateDrawSpeedSetting(bool a_enableDynamicDraw, bool a_playerOnly, bool a_enableConjurationFactor, double a_conjurationWeight);
 
     private:
         RE::BSEventNotifyControl ProcessEvent(const RE::TESEquipEvent* a_event, RE::BSTEventSource<RE::TESEquipEvent>* a_eventSource) override;
 
         bool   bAdjustBowDrawSpeed;
         bool   bAccountConjuration;
+        bool   bPlayerOnly;
         double fConjurationWeight;
     };
 
@@ -26,13 +28,14 @@ namespace EventHandler
     {
     public:
         bool RegisterListener();
-        void UpdateDrawSpeedSetting(bool a_enableDynamicDraw, bool a_enableConjurationFactor, double a_conjurationWeight);
+        void UpdateDrawSpeedSetting(bool a_enableDynamicDraw, bool a_playerOnly, bool a_enableConjurationFactor, double a_conjurationWeight);
 
     private:
         RE::BSEventNotifyControl ProcessEvent(const RE::TESObjectLoadedEvent* a_event, RE::BSTEventSource<RE::TESObjectLoadedEvent>* a_eventSource) override;
 
         bool   bAdjustBowDrawSpeed;
         bool   bAccountConjuration;
+        bool   bPlayerOnly;
         double fConjurationWeight;
     };
 } // namespace EventHandler

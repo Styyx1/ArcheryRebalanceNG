@@ -1,9 +1,11 @@
 #include "eventHandler.h"
-
 namespace
 {
-    void HandleActorStateChanged(RE::Actor* eventActor, RE::InventoryEntryData* a_data, bool bAccountConjuration, float fConjurationWeight)
-    {
+    void HandleActorStateChanged(RE::Actor* eventActor, RE::InventoryEntryData* a_data, bool bAccountConjuration, float fConjurationWeight, bool a_playerOnly)
+    {   // Added in 2.1.0
+        // Player exclusivity for speed settings.
+        if (!eventActor->IsPlayerRef() && a_playerOnly)
+            return;
         // Make sure that the actor has equipped ammo and either a bow or crossbow equipped.
         auto  rightEquipObject = a_data->object;
         auto* rightEquipWeapon = rightEquipObject->As<RE::TESObjectWEAP>();
@@ -11,9 +13,8 @@ namespace
         auto* currentAmmo      = isBow ? eventActor->GetCurrentAmmo() : nullptr;
         if (!currentAmmo)
             return;
-
         // Make sure that the ammo matches the ranged weapon equipped.
-        if (isBow && currentAmmo->IsBolt()) {
+        if (isBow && currentAmmo->IsBolt() || (!isBow && !currentAmmo->IsBolt())) {
             return;
         }
 
@@ -49,10 +50,11 @@ namespace
 
 namespace EventHandler
 {
+
     bool OnEquip::RegisterListener()
     {
         if (!this->bAdjustBowDrawSpeed)
-            return true;
+            return true;     
 
         auto* eventHolder = RE::ScriptEventSourceHolder::GetSingleton();
         if (!eventHolder)
@@ -62,7 +64,12 @@ namespace EventHandler
         return true;
     }
 
-    void OnEquip::UpdateDrawSpeedSetting(bool a_enableDynamicDraw, bool a_enableConjurationFactor, double a_conjurationWeight)
+    bool OnEquip::NPCGoodToFire()
+    {
+        return !this->bPlayerOnly;
+    }
+
+    void OnEquip::UpdateDrawSpeedSetting(bool a_enableDynamicDraw, bool a_playerOnly, bool a_enableConjurationFactor, double a_conjurationWeight)
     {
         this->bAdjustBowDrawSpeed = a_enableDynamicDraw;
         this->bAccountConjuration = a_enableConjurationFactor;
@@ -97,7 +104,7 @@ namespace EventHandler
         if (!rightEquipData)
             return continueEvent;
 
-        HandleActorStateChanged(eventActor, rightEquipData, this->bAccountConjuration, this->fConjurationWeight);
+        HandleActorStateChanged(eventActor, rightEquipData, this->bAccountConjuration, this->fConjurationWeight, this->bPlayerOnly);
         return continueEvent;
     }
 
@@ -114,10 +121,11 @@ namespace EventHandler
         return true;
     }
 
-    void OnLoad::UpdateDrawSpeedSetting(bool a_enableDynamicDraw, bool a_enableConjurationFactor, double a_conjurationWeight)
+    void OnLoad::UpdateDrawSpeedSetting(bool a_enableDynamicDraw, bool a_enableConjurationFactor, bool a_playerOnly, double a_conjurationWeight)
     {
         this->bAdjustBowDrawSpeed = a_enableDynamicDraw;
         this->bAccountConjuration = a_enableConjurationFactor;
+        this->bPlayerOnly         = a_playerOnly;
 
         if (a_conjurationWeight >= 0.0f && a_conjurationWeight <= 1.0f) {
             this->fConjurationWeight = a_conjurationWeight;
@@ -146,7 +154,7 @@ namespace EventHandler
         if (!rightEquipData)
             return continueEvent;
 
-        HandleActorStateChanged(eventActor, rightEquipData, this->bAccountConjuration, this->fConjurationWeight);
+        HandleActorStateChanged(eventActor, rightEquipData, this->bAccountConjuration, this->fConjurationWeight, this->bPlayerOnly);
         return continueEvent;
     }
 } // namespace EventHandler
