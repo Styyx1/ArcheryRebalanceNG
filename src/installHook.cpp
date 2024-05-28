@@ -8,8 +8,8 @@ namespace Hooks
         static void thunk(RE::CombatThreatMap* a_threatMap, RE::Projectile* a_projectile)
         {
             if (a_projectile) {
-                auto*       actorCause     = a_projectile->GetProjectileRuntimeData().actorCause.get();
-                auto*       actor          = actorCause ? actorCause->actor.get().get() : nullptr;                
+                auto* actorCause = a_projectile->GetProjectileRuntimeData().actorCause.get();
+                auto* actor      = actorCause ? actorCause->actor.get().get() : nullptr;
                 if (actor && (actor->IsPlayerRef() || EventHandler::OnEquip::GetSingleton()->NPCGoodToFire())) {
                     const auto* base           = a_projectile->GetBaseObject();
                     const auto* projectileBase = base ? base->As<RE::BGSProjectile>() : nullptr;

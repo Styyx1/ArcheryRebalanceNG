@@ -62,7 +62,8 @@ namespace
                 /* See note in ShouldRebuildINI.
 				ini.SetBoolValue("General", "bBoltsPenetrateArmor", false,
 					";Makes it so bolts penetrate armor
-                 * by
+
+                 * * by
 
 
                  * * * default.");

@@ -1,8 +1,9 @@
 #include "eventHandler.h"
+
 namespace
 {
     void HandleActorStateChanged(RE::Actor* eventActor, RE::InventoryEntryData* a_data, bool bAccountConjuration, float fConjurationWeight, bool a_playerOnly)
-    {   // Added in 2.1.0
+    { // Added in 2.1.0
         // Player exclusivity for speed settings.
         if (!eventActor->IsPlayerRef() && a_playerOnly)
             return;
@@ -54,7 +55,7 @@ namespace EventHandler
     bool OnEquip::RegisterListener()
     {
         if (!this->bAdjustBowDrawSpeed)
-            return true;     
+            return true;
 
         auto* eventHolder = RE::ScriptEventSourceHolder::GetSingleton();
         if (!eventHolder)
