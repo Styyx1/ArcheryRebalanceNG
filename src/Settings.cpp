@@ -7,25 +7,11 @@ namespace
 {
     bool ShouldRebuildINI(CSimpleIniA* a_ini)
     {
-        const char* generalKeys[] =
-        {
-            "bBuffArrowDamage",
-            "bBuffBoltDamage",
-            "bIncreaseArrowSpeed",
-            "bIncreaseBoltSpeed",
-            // Note: "Ignores Weapon Resistance" (the flag) seems to be ignored?
-            "bBoltsPenetrateArmor",
-            "bAdjustBowDrawSpeed",
-            "bAccountConjuration",
-            "bEnforceArcherySettings",
-            // New - Makes the player the sole beneficiary of the dynamic draw system.
-            "bPlayerOnly",
-            "fAdditionalArrowDamage",
-            "fAdditionalBoltDamage",
-            "fNewArrowSpeed",
-            "fNewBoltSpeed",
-            "fConjurationWeight"
-        };
+        const char* generalKeys[] = { "bBuffArrowDamage", "bBuffBoltDamage", "bIncreaseArrowSpeed", "bIncreaseBoltSpeed",
+                                      // Note: "Ignores Weapon Resistance" (the flag) seems to be ignored?
+                                      "bBoltsPenetrateArmor", "bAdjustBowDrawSpeed", "bAccountConjuration", "bEnforceArcherySettings",
+                                      // New - Makes the player the sole beneficiary of the dynamic draw system.
+                                      "bPlayerOnly", "fAdditionalArrowDamage", "fAdditionalBoltDamage", "fNewArrowSpeed", "fNewBoltSpeed", "fConjurationWeight" };
         int         keyNumber     = sizeof(generalKeys) / sizeof(generalKeys[0]);
 
         std::list<CSimpleIniA::Entry> keyHolder;
@@ -63,52 +49,45 @@ namespace
                 ini.Delete("General", NULL);
                 ini.SaveFile(f.c_str());
 
-                ini.SetBoolValue("General", "bBuffArrowDamage", false,
-                    ";Increases arrow damage by a specific amount.");
+                ini.SetBoolValue("General", "bBuffArrowDamage", false, ";Increases arrow damage by a specific amount.");
 
-                ini.SetBoolValue("General", "bBuffBoltDamage", false,
-                    ";Increases bolt damage by a specific amount.");
+                ini.SetBoolValue("General", "bBuffBoltDamage", false, ";Increases bolt damage by a specific amount.");
 
                 /* See note in ShouldRebuildINI.
                 ini.SetBoolValue("General", "bBoltsPenetrateArmor", false,
-                ";Makes it so bolts penetrate armor by default.");
+                ";Makes it so bolts penetrate armor by
+                 * default.");
                 */
 
-                ini.SetBoolValue("General", "bIncreaseArrowSpeed", true,
-                    ";Increases arrow speed TO a specific amount.");
+                ini.SetBoolValue("General", "bIncreaseArrowSpeed", true, ";Increases arrow speed TO a specific amount.");
 
-                ini.SetBoolValue("General", "bIncreaseBoltSpeed", true,
-                    ";Increases bolt speed TO a specific amount.");
+                ini.SetBoolValue("General", "bIncreaseBoltSpeed", true, ";Increases bolt speed TO a specific amount.");
 
-                ini.SetBoolValue("General", "bBoltsPenetrateArmor", true,
-                    ";Allowsbolts to natively penetrate armor, regardless of weapon effects.");
+                ini.SetBoolValue("General", "bBoltsPenetrateArmor", true, ";Allowsbolts to natively penetrate armor, regardless of weapon effects.");
 
-                ini.SetBoolValue("General", "bAdjustBowDrawSpeed", true,
-                    ";Main functionality of the mod, allows for dynamic draw speed based on bow weight and archery skill.");
+                ini.SetBoolValue("General", "bAdjustBowDrawSpeed", true, ";Main functionality of the mod, allows for dynamic draw speed based on bow weight and archery skill.");
 
-                ini.SetBoolValue("General", "bPlayerOnly", true,
-                    ";Makes the main mod only affect the player.");
+                ini.SetBoolValue("General", "bPlayerOnly", true, ";Makes the main mod only affect the player.");
 
-                ini.SetBoolValue("General", "bAccountConjuration", false,
+                ini.SetBoolValue(
+                    "General", "bAccountConjuration", false,
                     ";If using a bound weapon, accounts for conjuration skill in addition to archery for dynamic draw speed. No effect if bAdjustBowDrawSpeed is set to false.");
 
                 ini.SetBoolValue("General", "bEnforceArcherySettings", false,
-                    ";Enforces recommended archery settings found in Skyrim.ini. Copied from Synthesis - Another Archery Patcher.");
-
+                                 ";Enforces recommended archery settings found in Skyrim.ini. Copied from Synthesis - Another Archery Patcher.");
 
                 ini.SetDoubleValue("General", "fAdditionalArrowDamage", 0.0f,
-                    ";The amount by which to increase arrow damage. Must be bigger or equal to 0.0. No effect if bBuffArrowDamage is set to false.");
+                                   ";The amount by which to increase arrow damage. Must be bigger or equal to 0.0. No effect if bBuffArrowDamage is set to false.");
 
                 ini.SetDoubleValue("General", "fAdditionalBoltDamage", 0.0f,
-                    ";The amount by which to increase bolt damage. Must be bigger or equal to 0.0. No effect if bBuffBoltDamage is set to false.");
+                                   ";The amount by which to increase bolt damage. Must be bigger or equal to 0.0. No effect if bBuffBoltDamage is set to false.");
 
-                ini.SetDoubleValue("General", "fNewArrowSpeed", 4000.0f,
-                    ";The new arrow speed. No effect if bIncreaseArrowSpeed is set to false.");
+                ini.SetDoubleValue("General", "fNewArrowSpeed", 4000.0f, ";The new arrow speed. No effect if bIncreaseArrowSpeed is set to false.");
 
-                ini.SetDoubleValue("General", "fNewBoltSpeed", 7000.0f,
-                    ";The new bolt speed. No effect if bIncreaseBoltSpeed is set to false.");
+                ini.SetDoubleValue("General", "fNewBoltSpeed", 7000.0f, ";The new bolt speed. No effect if bIncreaseBoltSpeed is set to false.");
 
-                ini.SetDoubleValue("General", "fConjurationWeight", 0.6f,
+                ini.SetDoubleValue(
+                    "General", "fConjurationWeight", 0.6f,
                     ";The weight given to conjuration when calculating dynamic draw speed. Must be between 0.0 and 1.0, no effect if bAccountConjuration is set to false.");
                 ini.SaveFile(f.c_str());
             }
@@ -190,7 +169,8 @@ namespace Settings
         onEquipListener->RegisterListener();
         OnLoadListener->RegisterListener();
         Hooks::Install();
-        if (bBoltsPenetrateArmor) Hooks::InstallDamageResistPatch();
+        if (bBoltsPenetrateArmor)
+            Hooks::InstallDamageResistPatch();
         return true;
     }
 } // namespace Settings
