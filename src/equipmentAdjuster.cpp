@@ -117,7 +117,7 @@ namespace AdjustWeapons
         const auto& ammoArray = dataHandler->GetFormArray<RE::TESAmmo>();
         for (RE::TESAmmo* ammo : ammoArray) {
             auto& ammoData = ammo->GetRuntimeData().data;
-            if (!ammo->IsBolt())
+            if (!ammo->GetRuntimeData().data.flags.any(RE::AMMO_DATA::Flag::kNonBolt))
                 continue;
             if (!ammo->GetPlayable())
                 continue;
@@ -169,7 +169,7 @@ namespace AdjustWeapons
         if (!bBuffBoltDamage && !bIncreaseBoltSpeed && !bBoltsPenetrateArmor)
             return true;
 
-        const auto&                                                dataHandler = RE::TESDataHandler::GetSingleton();
+        const auto& dataHandler = RE::TESDataHandler::GetSingleton();
         std::vector<std::pair<std::string, std::pair<bool, bool>>> adjustedBolts;
 
         if (!dataHandler) {
@@ -180,7 +180,7 @@ namespace AdjustWeapons
         const auto& ammoArray = dataHandler->GetFormArray<RE::TESAmmo>();
         for (RE::TESAmmo* ammo : ammoArray) {
             auto& ammoData = ammo->GetRuntimeData().data;
-            if (ammo->IsBolt())
+            if (ammo->GetRuntimeData().data.flags.any(RE::AMMO_DATA::Flag::kNonBolt))
                 continue;
             if (!ammo->GetPlayable())
                 continue;

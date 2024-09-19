@@ -1,7 +1,26 @@
 #include "eventHandler.h"
 
-namespace
+namespace 
 {
+
+    static RE::TESObjectWEAP* GetWieldingWeapon(RE::Actor* a_actor) {
+
+        auto weapon        = a_actor->GetAttackingWeapon();
+        if (weapon) {
+            return weapon->object->As<RE::TESObjectWEAP>();
+        }
+        auto rhs = a_actor->GetEquippedObject(false);
+        if (rhs && rhs->IsWeapon()) {
+            return rhs->As<RE::TESObjectWEAP>();
+        }
+        auto lhs = a_actor->GetEquippedObject(true);
+        if (lhs && lhs->IsWeapon()) {
+            return lhs->As<RE::TESObjectWEAP>();
+        }
+        return nullptr;
+    }
+
+
     void HandleActorStateChanged(RE::Actor* eventActor, RE::InventoryEntryData* a_data, bool bAccountConjuration, float fConjurationWeight, bool a_playerOnly)
     { // Added in 2.1.0
         // Player exclusivity for speed settings.
@@ -10,7 +29,10 @@ namespace
         // Make sure that the actor has equipped ammo and either a bow or crossbow equipped.
         auto  rightEquipObject = a_data->object;
         auto* rightEquipWeapon = rightEquipObject->As<RE::TESObjectWEAP>();
-        bool  isBow            = rightEquipWeapon ? rightEquipWeapon->IsBow() : false;
+
+        auto* equippedWeap = GetWieldingWeapon(eventActor);
+
+        bool  isBow            = equippedWeap ? equippedWeap->IsBow() : false;
         auto* currentAmmo      = isBow ? eventActor->GetCurrentAmmo() : nullptr;
         if (!currentAmmo)
             return;
@@ -21,7 +43,7 @@ namespace
 
         // Beyond this point, the actor has a bow or crossbow with matching ammo.
         float actorArchery = eventActor->AsActorValueOwner()->GetActorValue(RE::ActorValue::kArchery);
-        float weaponWeight = rightEquipWeapon->GetWeight();
+        float weaponWeight = equippedWeap->GetWeight();
 
         if (weaponWeight < 5.0f) {
             weaponWeight = 5.0f;
@@ -30,7 +52,7 @@ namespace
             weaponWeight = 20.0f;
         }
 
-        if (bAccountConjuration && rightEquipWeapon->IsBound()) {
+        if (bAccountConjuration && equippedWeap->IsBound()) {
             float actorConjuration = eventActor->AsActorValueOwner()->GetActorValue(RE::ActorValue::kConjuration);
             actorArchery           = (1.0f - fConjurationWeight) * actorArchery + fConjurationWeight * actorConjuration;
         }
@@ -45,7 +67,7 @@ namespace
         else if (weaponSpeedFactor < 0.4f) {
             weaponSpeedFactor = 0.4f;
         }
-        rightEquipWeapon->weaponData.speed = weaponSpeedFactor;
+        equippedWeap->weaponData.speed = weaponSpeedFactor;
     }
 } // namespace
 
