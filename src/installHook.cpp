@@ -70,7 +70,6 @@ namespace Hooks
         inline static REL::Relocation<decltype(thunk)> func;
     };
 
-
     void Install()
     {
         REL::Relocation<std::uintptr_t> target{ RELOCATION_ID(43030, 44222), REL::Relocate(0x3CB, 0x79D, 0x3A8) };
@@ -81,7 +80,7 @@ namespace Hooks
     void InstallDamageResistPatch() // ID SE : 37673
     {
         logger::info("install damage resist patch");
-        REL::Relocation<std::uintptr_t> target{ RELOCATION_ID(37673,38627), REL::Relocate(0x3c0 ,0x4A8) };
+        REL::Relocation<std::uintptr_t> target{ RELOCATION_ID(37673, 38627), REL::Relocate(0x3c0, 0x4A8) };
         stl::write_thunk_call<CombatHit>(target.address());
     }
 
