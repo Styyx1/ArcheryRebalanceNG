@@ -169,7 +169,7 @@ namespace AdjustWeapons
         if (!bBuffBoltDamage && !bIncreaseBoltSpeed && !bBoltsPenetrateArmor)
             return true;
 
-        const auto& dataHandler = RE::TESDataHandler::GetSingleton();
+        const auto&                                                dataHandler = RE::TESDataHandler::GetSingleton();
         std::vector<std::pair<std::string, std::pair<bool, bool>>> adjustedBolts;
 
         if (!dataHandler) {

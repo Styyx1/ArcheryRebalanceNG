@@ -1,11 +1,11 @@
 #include "eventHandler.h"
 
-namespace 
+namespace
 {
 
-    static RE::TESObjectWEAP* GetWieldingWeapon(RE::Actor* a_actor) {
-
-        auto weapon        = a_actor->GetAttackingWeapon();
+    static RE::TESObjectWEAP* GetWieldingWeapon(RE::Actor* a_actor)
+    {
+        auto weapon = a_actor->GetAttackingWeapon();
         if (weapon) {
             return weapon->object->As<RE::TESObjectWEAP>();
         }
@@ -20,7 +20,6 @@ namespace
         return nullptr;
     }
 
-
     void HandleActorStateChanged(RE::Actor* eventActor, RE::InventoryEntryData* a_data, bool bAccountConjuration, float fConjurationWeight, bool a_playerOnly)
     { // Added in 2.1.0
         // Player exclusivity for speed settings.
@@ -32,8 +31,8 @@ namespace
 
         auto* equippedWeap = GetWieldingWeapon(eventActor);
 
-        bool  isBow            = equippedWeap ? equippedWeap->IsBow() : false;
-        auto* currentAmmo      = isBow ? eventActor->GetCurrentAmmo() : nullptr;
+        bool  isBow       = equippedWeap ? equippedWeap->IsBow() : false;
+        auto* currentAmmo = isBow ? eventActor->GetCurrentAmmo() : nullptr;
         if (!currentAmmo)
             return;
         // Make sure that the ammo matches the ranged weapon equipped.
